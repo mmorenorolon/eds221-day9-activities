@@ -45,6 +45,50 @@ mack_creek_lengths <- mack_creek_vertebrates %>%
   ungroup()
 ```
 
+```{r}
+#subset
+mack_creek_vertebrates_sub <- mack_creek_vertebrates %>% 
+  select(SPECIES) %>% 
+  slice_head(n = 5)
+
+#datapasta
+datapasta::df_paste(mack_creek_vertebrates_sub)
+
+mack_creek_vertebrates_subset <- data.frame(
+  stringsAsFactors = FALSE,
+           SPECIES = c("ONCL", "ONCL", "ONCL", "ONCL", "ONCL"))
+
+#share
+library(tidyverse)
+
+mack_creek_vertebrates_subset <- data.frame(
+  stringsAsFactors = FALSE,
+           SPECIES = c("ONCL", "ONCL", "ONCL", "ONCL", "ONCL"))
+
+mack_creek_lengths <- mack_creek_vertebrates_subset %>% 
+  mutate(across(where(is.character, tolower))) 
+
+#reprex
+
+``` r
+library(tidyverse)
+
+mack_creek_vertebrates_subset <- data.frame(
+  stringsAsFactors = FALSE,
+           SPECIES = c("ONCL", "ONCL", "ONCL", "ONCL", "ONCL"))
+
+mack_creek_lengths <- mack_creek_vertebrates_subset %>% 
+  mutate(across(where(is.character, tolower))) 
+#> Error in `mutate()`:
+#> ℹ In argument: `across(where(is.character, tolower))`.
+#> Caused by error in `across()`:
+#> ℹ In argument: `where(is.character, tolower)`.
+#> Caused by error in `where()`:
+#> ! unused argument (tolower)
+```
+<sup>Created on 2025-08-21 with [reprex v2.1.1](https://reprex.tidyverse.org)</sup>
+
+
 ### reprex 2
 
 Identify what is causing the problem in the code below (there's only one thing). Then, create a very simple reprex that would help yourself, future you, or a colleague fix the problem. **Post your reprex as an issue in your own fork on GitHub.**
@@ -60,5 +104,55 @@ mack_creek_vertebrates %>%
          labs(x = "Cutthroat trout length (cm)",
               y = "Weight (g)")
 ```
+
+```{r}
+# subset
+mack_creek_vertebrates_2 <- mack_creek_vertebrates %>% 
+  select(LENGTH1, WEIGHT) %>% 
+  slice_head(n = 5)
+
+#datapasta
+datapasta::df_paste(mack_creek_vertebrates_2)
+
+
+mack_creeks_vertebrates_subset2 <- data.frame(
+     LENGTH1 = c(58, 61, 89, 58, 93),
+      WEIGHT = c(1.75, 1.95, 5.6, 2.15, 6.9)
+ )
+
+#share
+library(tidyverse)
+
+mack_creeks_vertebrates_subset2 <- data.frame(
+     LENGTH1 = c(58, 61, 89, 58, 93),
+      WEIGHT = c(1.75, 1.95, 5.6, 2.15, 6.9)
+ )
+
+mack_creeks_vertebrates_subset2 %>% 
+  ggplot(aes(x = LENGTH1, y = WEIGHT)) +
+         geom_point(aes(shape = 12), color = "purple")
+
+#reprex
+
+``` r
+library(tidyverse)
+
+mack_creeks_vertebrates_subset2 <- data.frame(
+     LENGTH1 = c(58, 61, 89, 58, 93),
+      WEIGHT = c(1.75, 1.95, 5.6, 2.15, 6.9)
+ )
+
+mack_creeks_vertebrates_subset2 %>% 
+  ggplot(aes(x = LENGTH1, y = WEIGHT)) +
+         geom_point(aes(shape = 12), color = "purple")
+#> Error in `geom_point()`:
+#> ! Problem while computing aesthetics.
+#> ℹ Error occurred in the 1st layer.
+#> Caused by error in `scale_f()`:
+#> ! A continuous variable cannot be mapped to the shape aesthetic.
+#> ℹ Choose a different aesthetic or use `scale_shape_binned()`.
+```
+
+<sup>Created on 2025-08-21 with [reprex v2.1.1](https://reprex.tidyverse.org)</sup>
 
 ## End
